@@ -71,6 +71,7 @@ packages/           # package lists (base, zsh, desktop)
 scripts/            # numbered install steps
 zsh/                # .zshrc
 fastfetch/          # fastfetch config + logo
+kitty/              # kitty.conf
 ```
 
 | Script | Purpose |
