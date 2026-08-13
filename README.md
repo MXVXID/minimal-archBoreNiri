@@ -11,7 +11,7 @@ One-shot bootstrap for a minimal Arch Linux installation (Niri + Noctalia + SDDM
 - Zsh + autosuggestions + syntax-highlighting
 - Niri
 - Noctalia (app theming: GTK3/GTK4, KColorScheme, Qt, Kitty)
-- SDDM (login manager)
+- greetd + Noctalia Greeter (login screen, auto-sync dari desktop)
 - Kitty
 - Firefox
 - adw-gtk-theme + nwg-look (GTK theming)
@@ -58,6 +58,7 @@ chmod +x install.sh
 - `qt6ct` → Appearance → Color scheme: `noctalia (KColorScheme)`
 - Noctalia Settings → Templates → enable community templates → enable `pywalfox-beta4`
 - Install the [Pywalfox](https://addons.mozilla.org/en-US/firefox/addon/pywalfox/) extension in Firefox and restart it once
+- Noctalia Settings → Security → Noctalia Greeter → **Sync Now** (copy wallpaper/palette/font ke login screen) — optional: enable Auto-Sync
 
 ## Structure
 
@@ -74,7 +75,7 @@ zsh/                # .zshrc
 | 02-cachyos | CachyOS repos + BORE kernel |
 | 03-aur | AUR helper (paru / yay) |
 | 04-zsh | Zsh + plugins + shell setup |
-| 05-desktop | Niri, Noctalia, SDDM, fonts, AUR extras |
+| 05-desktop | Niri, Noctalia, greetd, fonts, AUR extras |
 | 06-gpu | GPU drivers (interactive selection) |
 | 07-noctalia | Noctalia theming templates |
 | 08-lazyvim | Neovim + LazyVim dependencies |

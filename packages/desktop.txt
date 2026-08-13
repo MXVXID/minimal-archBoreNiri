@@ -1,6 +1,7 @@
 niri
 noctalia
-sddm
+greetd
+accountsservice
 kitty
 firefox
 adw-gtk-theme
