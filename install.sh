@@ -63,7 +63,7 @@ STEP_DESCS=(
     "Neovim + LazyVim dependencies"
     "Dotfiles + configs from MXVXID/lx, LazyVim"
     "Bootloader (GRUB tuning / systemd-boot)"
-    "Dev toolchain (cmake, Python, Node/pnpm, Go/gopls, Rust, nvm, opencode) — optional"
+    "Dev toolchain (cmake, Python/uv/pipx, Node/pnpm/bun, Go/gopls/migrate/grpc, Rust, opencode) — optional"
 )
 
 # ------------------------------------------------------------

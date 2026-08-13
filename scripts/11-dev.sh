@@ -37,13 +37,30 @@ if command -v rustup >/dev/null 2>&1; then
 fi
 
 echo
+echo "==> Installing Go tools (migrate, protoc plugins)"
+
+if command -v go >/dev/null 2>&1; then
+    go install github.com/golang-migrate/migrate/v4/cmd/migrate@latest
+    go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+    go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+fi
+
+echo
 echo "==> Verifying toolchain"
 
-for tool in cmake python3 node go gopls cargo rustc opencode; do
+for tool in cmake python3 node go gopls cargo rustc opencode uv pipx bun protoc; do
     if command -v "$tool" >/dev/null 2>&1; then
-        printf "  %-8s %s\n" "$tool" "$("$tool" --version 2>/dev/null | head -n 1)"
+        printf "  %-14s %s\n" "$tool" "$("$tool" --version 2>/dev/null | head -n 1)"
     else
-        printf "  %-8s not found\n" "$tool"
+        printf "  %-14s not found\n" "$tool"
+    fi
+done
+
+for tool in migrate protoc-gen-go protoc-gen-go-grpc; do
+    if [[ -x "$HOME/go/bin/$tool" ]]; then
+        printf "  %-14s %s\n" "$tool" "$("$HOME/go/bin/$tool" --version 2>/dev/null | head -n 1)"
+    else
+        printf "  %-14s not found\n" "$tool"
     fi
 done
 

@@ -2,10 +2,15 @@ cmake
 ninja
 python
 python-pip
+uv
+python-pipx
 nodejs
 npm
 pnpm
+bun
 nvm
 go
 gopls
+protobuf
+grpc
 rustup
