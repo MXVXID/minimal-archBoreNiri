@@ -237,6 +237,7 @@ summary() {
     info "  · qt6ct → Appearance → Color scheme: noctalia (KColorScheme)"
     info "  · Noctalia Settings → Templates → enable 'pywalfox-beta4'"
     info "  · Noctalia Settings → Security → Noctalia Greeter → Sync Now"
+    info "  · After Noctalia Sync: re-run script 07 to apply the Telegram theme"
 }
 
 # ------------------------------------------------------------

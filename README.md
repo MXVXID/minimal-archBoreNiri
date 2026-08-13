@@ -62,6 +62,7 @@ chmod +x install.sh
 - Noctalia Settings → Templates → enable community templates → enable `pywalfox-beta4`
 - Install the [Pywalfox](https://addons.mozilla.org/en-US/firefox/addon/pywalfox/) extension in Firefox and restart it once
 - Noctalia Settings → Security → Noctalia Greeter → **Sync Now** (copies wallpaper/palette/font to the login screen) — optional: enable Auto-Sync
+- **Telegram**: after Noctalia Sync, re-run script 07 (applies theme to `~/.local/share/TelegramDesktop/tdata/colors.tdesktop-theme`), then restart Telegram
 
 ## Structure
 
