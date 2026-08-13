@@ -1,0 +1,10 @@
+base-devel
+git
+curl
+wget
+unzip
+tar
+gzip
+7zip
+amd-ucode
+intel-ucode

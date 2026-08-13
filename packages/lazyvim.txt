@@ -1,0 +1,8 @@
+neovim
+tree-sitter-cli
+gcc
+ripgrep
+fd
+fzf
+lazygit
+curl

@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+echo
+echo "=============================================="
+echo "            NOCTALIA THEMING"
+echo "=============================================="
+echo
+
+NOCTALIA_DIR="$HOME/.config/noctalia"
+TEMPLATES_FILE="$NOCTALIA_DIR/templates.toml"
+
+mkdir -p "$NOCTALIA_DIR"
+
+if [[ -f "$TEMPLATES_FILE" ]]; then
+    echo "==> ~/.config/noctalia/templates.toml already exists, skipping."
+else
+    cat > "$TEMPLATES_FILE" <<'EOF'
+[theme.templates]
+enable_builtin_templates = true
+builtin_ids = ["gtk3", "gtk4", "kcolorscheme", "qt", "kitty"]
+EOF
+    echo "==> Wrote ~/.config/noctalia/templates.toml"
+    echo "    Enabled built-in templates: GTK3, GTK4, KColorScheme, Qt, Kitty"
+fi
+
+echo
+echo "==> Applying adw-gtk3 as GTK theme"
+
+gsettings set org.gnome.desktop.interface gtk-theme 'adw-gtk3' 2>/dev/null || true
+gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark' 2>/dev/null || true
+
+echo
+echo "==> Manual steps after first login:"
+echo "    1. qt6ct -> Appearance -> Color scheme: 'noctalia (KColorScheme)'"
+echo "    2. Noctalia Settings -> Templates -> enable community templates,"
+echo "       Browse Templates -> enable 'pywalfox-beta4'"
+echo "    3. Install Pywalfox extension in Firefox (addons.mozilla.org)"
+echo "    4. Restart Firefox once after first theme apply"
+echo
+echo "=============================================="
+echo "          NOCTALIA THEMING READY"
+echo "=============================================="
