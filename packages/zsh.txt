@@ -1,1 +1,3 @@
 zsh
+fastfetch
+zsh-completions

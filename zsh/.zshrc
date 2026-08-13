@@ -16,36 +16,41 @@ setopt HIST_IGNORE_SPACE
 # Completion
 # ============================================================
 
+fpath=(/usr/share/zsh/site-functions "$HOME/.local/share/zsh/completions" $fpath)
+
 autoload -Uz compinit
 compinit
 
 # ============================================================
-# Autosuggestions
+# Theme: Powerlevel10k
+# ============================================================
+
+[[ -f "$HOME/.local/share/zsh/themes/powerlevel10k/powerlevel10k.zsh-theme" ]] &&
+    source "$HOME/.local/share/zsh/themes/powerlevel10k/powerlevel10k.zsh-theme"
+
+# ============================================================
+# Plugins
 # ============================================================
 
 source "$HOME/.local/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
-
-# ============================================================
-# Syntax Highlighting
-# ============================================================
-
 source "$HOME/.local/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
 # ============================================================
-# Git
+# fzf
 # ============================================================
 
-autoload -Uz vcs_info
+if command -v fzf >/dev/null 2>&1; then
+    source /usr/share/fzf/key-bindings.zsh
+    source /usr/share/fzf/completion.zsh
+fi
 
-precmd() {
-    vcs_info
-}
+# ============================================================
+# Fastfetch
+# ============================================================
 
-zstyle ':vcs_info:git:*' formats ' [%b]'
-
-setopt PROMPT_SUBST
-
-PROMPT='%F{cyan}%n@%m%f %F{blue}%~%f%F{yellow}${vcs_info_msg_0_}%f %# '
+if command -v fastfetch >/dev/null 2>&1 && [[ ! -v NO_FASTFETCH ]]; then
+    fastfetch
+fi
 
 # ============================================================
 # Aliases
@@ -62,6 +67,8 @@ alias gp='git push'
 
 alias v='nvim'
 alias vi='nvim'
+
+alias ff='fastfetch'
 
 # ============================================================
 # Environment

@@ -45,6 +45,28 @@ clone_plugin \
     "https://github.com/zsh-users/zsh-syntax-highlighting.git" \
     "$PLUGIN_DIR/zsh-syntax-highlighting"
 
+THEME_DIR="$HOME/.local/share/zsh/themes"
+
+mkdir -p "$THEME_DIR"
+
+echo
+echo "==> Installing Powerlevel10k theme"
+
+if [[ -d "$THEME_DIR/powerlevel10k/.git" ]]; then
+    echo "==> Updating powerlevel10k"
+
+    git -C "$THEME_DIR/powerlevel10k" pull --ff-only
+else
+    echo "==> Cloning powerlevel10k"
+
+    rm -rf "$THEME_DIR/powerlevel10k"
+
+    git clone \
+        --depth=1 \
+        "https://github.com/romkatv/powerlevel10k.git" \
+        "$THEME_DIR/powerlevel10k"
+fi
+
 echo "==> Installing .zshrc"
 
 if [[ -e "$HOME/.zshrc" && ! -L "$HOME/.zshrc" ]]; then
@@ -64,5 +86,8 @@ if [[ "$CURRENT_SHELL" != "$ZSH" ]]; then
     echo "==> Setting Zsh as default shell"
     chsh -s "$ZSH"
 fi
+
+echo
+echo "==> Run 'p10k configure' after login to customize the prompt"
 
 echo "==> Zsh ready"
