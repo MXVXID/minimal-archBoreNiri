@@ -13,38 +13,6 @@ mapfile -t PACKAGES < <(
 
 sudo pacman -S --needed "${PACKAGES[@]}" git
 
-PLUGIN_DIR="$HOME/.local/share/zsh/plugins"
-
-mkdir -p "$PLUGIN_DIR"
-
-clone_plugin() {
-    local repo="$1"
-    local destination="$2"
-
-    if [[ -d "$destination/.git" ]]; then
-        echo "==> Updating $(basename "$destination")"
-
-        git -C "$destination" pull --ff-only
-    else
-        echo "==> Cloning $(basename "$destination")"
-
-        rm -rf "$destination"
-
-        git clone \
-            --depth=1 \
-            "$repo" \
-            "$destination"
-    fi
-}
-
-clone_plugin \
-    "https://github.com/zsh-users/zsh-autosuggestions.git" \
-    "$PLUGIN_DIR/zsh-autosuggestions"
-
-clone_plugin \
-    "https://github.com/zsh-users/zsh-syntax-highlighting.git" \
-    "$PLUGIN_DIR/zsh-syntax-highlighting"
-
 THEME_DIR="$HOME/.local/share/zsh/themes"
 
 mkdir -p "$THEME_DIR"
@@ -66,6 +34,23 @@ else
         "https://github.com/romkatv/powerlevel10k.git" \
         "$THEME_DIR/powerlevel10k"
 fi
+
+echo "==> Installing fastfetch config"
+
+if [[ -e "$HOME/.config/fastfetch/config.jsonc" && ! -L "$HOME/.config/fastfetch/config.jsonc" ]]; then
+    cp "$HOME/.config/fastfetch/config.jsonc" \
+       "$HOME/.config/fastfetch/config.jsonc.backup.$(date +%Y%m%d%H%M%S)"
+fi
+
+mkdir -p "$HOME/.config/fastfetch"
+
+ln -sfn \
+    "$ROOT_DIR/fastfetch/config.jsonc" \
+    "$HOME/.config/fastfetch/config.jsonc"
+
+ln -sfn \
+    "$ROOT_DIR/fastfetch/framework_white.png" \
+    "$HOME/.config/fastfetch/framework_white.png"
 
 echo "==> Installing .zshrc"
 

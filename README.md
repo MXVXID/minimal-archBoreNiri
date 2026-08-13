@@ -8,7 +8,8 @@ One-shot bootstrap for a minimal Arch Linux installation (Niri + Noctalia + gree
 - linux-cachyos-bore + headers
 - Microcode (AMD + Intel)
 - GPU drivers (selectable: AMD / Intel / NVIDIA-open / All)
-- Zsh + autosuggestions + syntax-highlighting
+- Zsh + autosuggestions + syntax-highlighting + Powerlevel10k
+- Fastfetch (custom config + logo)
 - Niri
 - Noctalia (app theming: GTK3/GTK4, KColorScheme, Qt, Kitty)
 - greetd + Noctalia Greeter (login screen, synced with the desktop)
@@ -67,6 +68,7 @@ install.sh          # main entrypoint, runs all scripts in order
 packages/           # package lists (base, zsh, desktop)
 scripts/            # numbered install steps
 zsh/                # .zshrc
+fastfetch/          # fastfetch config + logo
 ```
 
 | Script | Purpose |

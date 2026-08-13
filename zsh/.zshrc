@@ -32,8 +32,8 @@ compinit
 # Plugins
 # ============================================================
 
-source "$HOME/.local/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
-source "$HOME/.local/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # ============================================================
 # fzf
@@ -77,3 +77,32 @@ alias ff='fastfetch'
 export EDITOR='nvim'
 export VISUAL='nvim'
 export QT_QPA_PLATFORMTHEME='qt6ct'
+
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="$PATH:$HOME/go/bin"
+export PATH="$HOME/.opencode/bin:$PATH"
+
+export PNPM_HOME="$HOME/.local/share/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+
+export PATH="$HOME/develop/flutter/bin:$PATH"
+export CHROME_EXECUTABLE="/usr/bin/google-chrome-stable"
+
+# ============================================================
+# Dev tooling
+# ============================================================
+
+[[ -f /usr/share/nvm/init-nvm.sh ]] && source /usr/share/nvm/init-nvm.sh
+
+[[ -f "$HOME/.openclaw/completions/openclaw.zsh" ]] &&
+    source "$HOME/.openclaw/completions/openclaw.zsh"
+
+if [[ "$TERM_PROGRAM" == "kiro" ]] && command -v kiro >/dev/null 2>&1; then
+    . "$(kiro --locate-shell-integration-path zsh)"
+fi
+
+# ============================================================
+# Local overrides (machine-specific, never overwritten)
+# ============================================================
+
+[[ -f "$HOME/.zshrc.local" ]] && source "$HOME/.zshrc.local"
