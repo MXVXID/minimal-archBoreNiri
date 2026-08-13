@@ -20,6 +20,16 @@ mapfile -t PACKAGES < <(
 sudo pacman -S --needed "${PACKAGES[@]}"
 
 echo
+echo "==> Installing opencode (latest)"
+
+if command -v opencode >/dev/null 2>&1; then
+    echo "==> Updating opencode"
+    opencode upgrade
+else
+    curl -fsSL https://opencode.ai/install | bash
+fi
+
+echo
 echo "==> Setting Rust stable toolchain"
 
 if command -v rustup >/dev/null 2>&1; then
@@ -29,7 +39,7 @@ fi
 echo
 echo "==> Verifying toolchain"
 
-for tool in cmake python3 node go gopls cargo rustc; do
+for tool in cmake python3 node go gopls cargo rustc opencode; do
     if command -v "$tool" >/dev/null 2>&1; then
         printf "  %-8s %s\n" "$tool" "$("$tool" --version 2>/dev/null | head -n 1)"
     else

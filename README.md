@@ -25,7 +25,7 @@ One-shot bootstrap for a minimal Arch Linux installation (Niri + Noctalia + gree
 - qt6ct-kde (AUR, Qt theming)
 - btop + cava (Noctalia templates)
 - Neovim + LazyVim (starter + prerequisites)
-- Dev toolchain **(optional)**: cmake + ninja, Python + pip, Node.js + npm + pnpm + nvm, Go + gopls, Rust (rustup)
+- Dev toolchain **(optional)**: cmake + ninja, Python + pip, Node.js + npm + pnpm + nvm, Go + gopls, Rust (rustup), opencode (curl installer)
 
 ## Requirements
 
