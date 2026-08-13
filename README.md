@@ -51,7 +51,9 @@ chmod +x install.sh
 ## Run
 
 ```bash
-./install.sh
+./install.sh            # interactive wizard (choose steps, or run all)
+./install.sh --auto     # run all steps without prompts
+./install.sh --steps 1-3,5   # run only specific steps
 ```
 
 ## After first login
