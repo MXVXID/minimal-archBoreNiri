@@ -21,6 +21,12 @@ sudo systemctl enable NetworkManager.service
 echo
 echo "==> Enabling greetd + accounts-daemon"
 
+for dm in sddm gdm lightdm lxdm ly; do
+    sudo systemctl disable --now "$dm.service" 2>/dev/null || true
+done
+
+sudo rm -f /etc/systemd/system/display-manager.service
+
 sudo systemctl enable greetd.service
 sudo systemctl enable accounts-daemon.service
 
