@@ -13,26 +13,24 @@ mapfile -t PACKAGES < <(
 
 sudo pacman -S --needed "${PACKAGES[@]}" git
 
-THEME_DIR="$HOME/.local/share/zsh/themes"
-
-mkdir -p "$THEME_DIR"
+OMZ_DIR="$HOME/.oh-my-zsh"
 
 echo
-echo "==> Installing Powerlevel10k theme"
+echo "==> Installing Oh My Zsh"
 
-if [[ -d "$THEME_DIR/powerlevel10k/.git" ]]; then
-    echo "==> Updating powerlevel10k"
+if [[ -d "$OMZ_DIR/.git" ]]; then
+    echo "==> Updating Oh My Zsh"
 
-    git -C "$THEME_DIR/powerlevel10k" pull --ff-only
+    git -C "$OMZ_DIR" pull --ff-only
 else
-    echo "==> Cloning powerlevel10k"
+    echo "==> Cloning Oh My Zsh"
 
-    rm -rf "$THEME_DIR/powerlevel10k"
+    rm -rf "$OMZ_DIR"
 
     git clone \
         --depth=1 \
-        "https://github.com/romkatv/powerlevel10k.git" \
-        "$THEME_DIR/powerlevel10k"
+        "https://github.com/ohmyzsh/ohmyzsh.git" \
+        "$OMZ_DIR"
 fi
 
 echo "==> Installing fastfetch config"
@@ -73,6 +71,6 @@ if [[ "$CURRENT_SHELL" != "$ZSH" ]]; then
 fi
 
 echo
-echo "==> Run 'p10k configure' after login to customize the prompt"
+echo "==> Theme: agnoster (Oh My Zsh) — needs a Nerd Font (installed later)"
 
 echo "==> Zsh ready"

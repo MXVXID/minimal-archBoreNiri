@@ -1,32 +1,14 @@
 # ============================================================
-# History
+# Oh My Zsh
 # ============================================================
 
-HISTFILE="$HOME/.zsh_history"
+export ZSH="$HOME/.oh-my-zsh"
 
-HISTSIZE=10000
-SAVEHIST=10000
+ZSH_THEME="agnoster"
 
-setopt APPEND_HISTORY
-setopt SHARE_HISTORY
-setopt HIST_IGNORE_DUPS
-setopt HIST_IGNORE_SPACE
+plugins=(git)
 
-# ============================================================
-# Completion
-# ============================================================
-
-fpath=(/usr/share/zsh/site-functions "$HOME/.local/share/zsh/completions" $fpath)
-
-autoload -Uz compinit
-compinit
-
-# ============================================================
-# Theme: Powerlevel10k
-# ============================================================
-
-[[ -f "$HOME/.local/share/zsh/themes/powerlevel10k/powerlevel10k.zsh-theme" ]] &&
-    source "$HOME/.local/share/zsh/themes/powerlevel10k/powerlevel10k.zsh-theme"
+source "$ZSH/oh-my-zsh.sh"
 
 # ============================================================
 # Plugins

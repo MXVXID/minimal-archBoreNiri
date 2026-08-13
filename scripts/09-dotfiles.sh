@@ -66,12 +66,48 @@ link_config() {
 }
 
 link_config "niri"
-link_config "nvim"
 link_config "kanata"
 
-if command -v nvim >/dev/null 2>&1 && [[ -e "$HOME/.config/nvim/lua/config/lazy.lua" ]]; then
+NVIM_DIR="$HOME/.config/nvim"
+
+echo
+echo "==> Installing LazyVim"
+
+if command -v nvim >/dev/null 2>&1 && [[ -d "$DOTFILES_DIR/.config/nvim" ]]; then
+    if [[ -e "$NVIM_DIR" && ! -L "$NVIM_DIR" ]]; then
+        backup="$NVIM_DIR.backup.$(date +%Y%m%d%H%M%S)"
+
+        echo "==> Existing $NVIM_DIR detected"
+        echo "    Backup -> $backup"
+
+        mv "$NVIM_DIR" "$backup"
+    elif [[ -L "$NVIM_DIR" ]]; then
+        echo "==> Removing old symlink"
+
+        rm "$NVIM_DIR"
+    fi
+
+    echo "==> Cloning LazyVim starter"
+
+    git clone \
+        --depth=1 \
+        "https://github.com/LazyVim/starter.git" \
+        "$NVIM_DIR"
+
     echo
-    echo "==> Bootstrapping LazyVim (first run — installs plugins, may take a while)"
+    echo "==> Removing starter .git"
+
+    rm -rf "$NVIM_DIR/.git"
+
+    echo
+    echo "==> Overlaying dotfiles from MXVXID/lx"
+
+    cp -a "$DOTFILES_DIR/.config/nvim/." "$NVIM_DIR/"
+
+    rm -rf "$NVIM_DIR/.git"
+
+    echo
+    echo "==> Bootstrapping LazyVim (installs plugins, may take a while)"
 
     if nvim --headless "+Lazy! sync" +qa 2>/dev/null; then
         echo "==> LazyVim plugins installed"
@@ -79,6 +115,8 @@ if command -v nvim >/dev/null 2>&1 && [[ -e "$HOME/.config/nvim/lua/config/lazy.
         echo "==> Warning: LazyVim bootstrap did not finish cleanly"
         echo "    Run 'nvim' once manually to complete the plugin install."
     fi
+else
+    echo "    Skipped (nvim or ~/.local/src/lx/.config/nvim not available)"
 fi
 
 echo

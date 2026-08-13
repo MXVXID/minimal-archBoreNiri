@@ -55,12 +55,12 @@ STEP_DESCS=(
     "System update + base packages"
     "CachyOS repos + BORE kernel"
     "AUR helper (paru / yay)"
-    "Zsh + Powerlevel10k + fastfetch"
+    "Zsh + Oh My Zsh (agnoster) + fastfetch"
     "Niri, Noctalia, greetd, fonts, AUR extras"
     "GPU drivers (AMD / Intel / NVIDIA / All)"
     "Noctalia theming templates"
     "Neovim + LazyVim dependencies"
-    "Dotfiles from MXVXID/lx"
+    "LazyVim starter + dotfiles from MXVXID/lx"
     "Bootloader (GRUB tuning / systemd-boot)"
 )
 
@@ -233,7 +233,7 @@ summary() {
 
     echo
     info "After login:"
-    info "  · Run 'p10k configure' to customize the prompt"
+    info "  · Oh My Zsh — change ZSH_THEME in .zshrc (default: agnoster)"
     info "  · qt6ct → Appearance → Color scheme: noctalia (KColorScheme)"
     info "  · Noctalia Settings → Templates → enable 'pywalfox-beta4'"
     info "  · Noctalia Settings → Security → Noctalia Greeter → Sync Now"

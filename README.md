@@ -8,7 +8,7 @@ One-shot bootstrap for a minimal Arch Linux installation (Niri + Noctalia + gree
 - linux-cachyos-bore + headers
 - Microcode (AMD + Intel)
 - GPU drivers (selectable: AMD / Intel / NVIDIA-open / All)
-- Zsh + autosuggestions + syntax-highlighting + Powerlevel10k
+- Zsh + Oh My Zsh (agnoster theme) + autosuggestions + syntax-highlighting
 - Fastfetch (custom config + logo)
 - Niri
 - Noctalia (app theming: GTK3/GTK4, KColorScheme, Qt, Kitty)
@@ -22,7 +22,7 @@ One-shot bootstrap for a minimal Arch Linux installation (Niri + Noctalia + gree
 - NetworkManager
 - Kanata (AUR)
 - qt6ct-kde (AUR, Qt theming)
-- Neovim + LazyVim dependencies (tree-sitter, GCC, ripgrep, fd, fzf, LazyGit)
+- Neovim + LazyVim (starter + prerequisites)
 
 ## Requirements
 
@@ -78,10 +78,10 @@ fastfetch/          # fastfetch config + logo
 | 01-system | Update + base packages |
 | 02-cachyos | CachyOS repos + BORE kernel |
 | 03-aur | AUR helper (paru / yay) |
-| 04-zsh | Zsh + plugins + shell setup |
+| 04-zsh | Zsh + Oh My Zsh + plugins + shell setup |
 | 05-desktop | Niri, Noctalia, greetd, fonts, AUR extras |
 | 06-gpu | GPU drivers (interactive selection) |
 | 07-noctalia | Noctalia theming templates |
-| 08-lazyvim | Neovim + LazyVim dependencies |
-| 09-dotfiles | Link configs from MXVXID/lx |
+| 08-lazyvim | Neovim + LazyVim prerequisites |
+| 09-dotfiles | LazyVim starter + dotfiles from MXVXID/lx |
 | 10-bootloader | GRUB tuning (skips on systemd-boot) |
