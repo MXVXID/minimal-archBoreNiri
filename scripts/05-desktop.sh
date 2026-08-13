@@ -49,7 +49,13 @@ for candidate in paru yay; do
 done
 
 if [[ -n "$AUR_HELPER" ]]; then
-    "$AUR_HELPER" -S --needed \
+    AUR_FLAGS=(--needed --noconfirm --removemake)
+
+    if [[ "$AUR_HELPER" == "paru" ]]; then
+        AUR_FLAGS+=(--skipreview)
+    fi
+
+    "$AUR_HELPER" -S "${AUR_FLAGS[@]}" \
         kanata-bin \
         ttf-nerd-fonts-meta \
         qt6ct-kde \

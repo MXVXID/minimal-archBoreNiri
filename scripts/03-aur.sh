@@ -8,6 +8,16 @@ echo "              AUR HELPER SETUP"
 echo "=============================================="
 echo
 
+if command -v paru >/dev/null 2>&1; then
+    echo "==> paru already installed, skipping selection"
+    paru --version
+    exit 0
+elif command -v yay >/dev/null 2>&1; then
+    echo "==> yay already installed, skipping selection"
+    yay --version
+    exit 0
+fi
+
 echo "Choose AUR helper:"
 echo
 echo "  1) paru"
