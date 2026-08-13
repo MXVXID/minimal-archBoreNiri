@@ -28,9 +28,7 @@ sudo pacman -Syu --needed
 echo
 echo "==> Installing CachyOS BORE kernel"
 
-sudo pacman -S --needed \
-    linux-cachyos-bore \
-    linux-cachyos-bore-headers
+sudo pacman -S --needed linux-cachyos-bore
 
 echo
 echo "==> Verifying CachyOS kernel package"
