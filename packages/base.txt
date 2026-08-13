@@ -6,5 +6,9 @@ unzip
 tar
 gzip
 7zip
+
+ntfs-3g
+dosfstools
+
 amd-ucode
 intel-ucode

@@ -7,6 +7,7 @@ One-shot bootstrap for a minimal Arch Linux installation (Niri + Noctalia + gree
 - CachyOS repositories
 - linux-cachyos-bore + headers
 - Microcode (AMD + Intel)
+- ntfs-3g + dosfstools (NTFS / FAT drives)
 - GPU drivers (selectable: AMD / Intel / NVIDIA-open / All)
 - Zsh + Oh My Zsh (agnoster theme) + autosuggestions + syntax-highlighting
 - Fastfetch (custom config + logo)
@@ -24,6 +25,7 @@ One-shot bootstrap for a minimal Arch Linux installation (Niri + Noctalia + gree
 - qt6ct-kde (AUR, Qt theming)
 - btop + cava (Noctalia templates)
 - Neovim + LazyVim (starter + prerequisites)
+- Dev toolchain **(optional)**: cmake + ninja, Python + pip, Node.js + npm + pnpm + nvm, Go + gopls, Rust (rustup)
 
 ## Requirements
 
@@ -58,7 +60,11 @@ chmod +x install.sh
 ./install.sh            # interactive wizard (choose steps, or run all)
 ./install.sh --auto     # run all steps without prompts
 ./install.sh --steps 1-3,5   # run only specific steps
+./install.sh --steps 11      # install only the dev toolchain
 ```
+
+The dev toolchain (step 11) is **optional** — the wizard asks for it and the default is
+*no*. Use `--steps 11` (or `--steps 1-11`) to include it.
 
 ## After first login
 
@@ -90,3 +96,4 @@ This repo contains **only the installer** — all configs (`.zshrc`, fastfetch, 
 | 08-lazyvim | Neovim + LazyVim prerequisites |
 | 09-dotfiles | Link configs from MXVXID/lx + LazyVim |
 | 10-bootloader | GRUB tuning (skips on systemd-boot) |
+| 11-dev | Dev toolchain (optional — cmake, Python, Node, Go, Rust, nvm) |

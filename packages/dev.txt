@@ -1,0 +1,11 @@
+cmake
+ninja
+python
+python-pip
+nodejs
+npm
+pnpm
+nvm
+go
+gopls
+rustup

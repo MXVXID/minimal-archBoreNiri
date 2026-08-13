@@ -49,6 +49,7 @@ STEP_PATHS=(
     "scripts/08-lazyvim.sh"
     "scripts/09-dotfiles.sh"
     "scripts/10-bootloader.sh"
+    "scripts/11-dev.sh"
 )
 
 STEP_DESCS=(
@@ -62,6 +63,7 @@ STEP_DESCS=(
     "Neovim + LazyVim dependencies"
     "Dotfiles + configs from MXVXID/lx, LazyVim"
     "Bootloader (GRUB tuning / systemd-boot)"
+    "Dev toolchain (cmake, Python, Node/pnpm, Go/gopls, Rust, nvm) — optional"
 )
 
 # ------------------------------------------------------------
@@ -166,8 +168,9 @@ select_interactive() {
 
     if [[ -z "$answer" || "$answer" == "all" ]]; then
         SELECTED=()
-        for i in "${!STEP_PATHS[@]}"; do
-            SELECTED+=("$((i + 1))")
+        local total=${#STEP_PATHS[@]}
+        for ((i = 1; i < total; i++)); do
+            SELECTED+=("$i")
         done
     else
         parse_step_spec "$answer"
@@ -219,6 +222,7 @@ summary() {
         "zsh|Zsh"
         "fastfetch|Fastfetch"
         "nvim|Neovim"
+        "cmake|Dev toolchain (optional)"
     )
 
     for entry in "${checks[@]}"; do
@@ -283,14 +287,26 @@ banner
 system_info
 
 if [[ "$AUTO" -eq 1 ]]; then
-    SELECTED=()
-    for i in "${!STEP_PATHS[@]}"; do
-        SELECTED+=("$((i + 1))")
-    done
-    info "Auto mode — running all ${#SELECTED[@]} steps"
+    if [[ "$STEPS_SET" -ne 1 ]]; then
+        SELECTED=()
+        total=${#STEP_PATHS[@]}
+        for ((i = 1; i < total; i++)); do
+            SELECTED+=("$i")
+        done
+        info "Auto mode — running core steps 1-$((total - 1)) (dev toolchain skipped, use --steps 11)"
+    else
+        info "Auto mode — running selected steps without prompts"
+    fi
 else
     if [[ "$STEPS_SET" -ne 1 ]]; then
         select_interactive
+
+        if [[ " ${SELECTED[*]} " != *" ${#STEP_PATHS[@]} "* ]]; then
+            read -rp "  Also install the dev toolchain (step ${#STEP_PATHS[@]})? [y/N] " dev_answer
+            if [[ "$dev_answer" =~ ^[Yy]$ ]]; then
+                SELECTED+=("${#STEP_PATHS[@]}")
+            fi
+        fi
     fi
 
     echo "  ${C_BOLD}Selected ${#SELECTED[@]} step(s):${C_RESET}"
