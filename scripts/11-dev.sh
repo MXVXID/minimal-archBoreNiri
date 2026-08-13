@@ -26,7 +26,7 @@ if command -v opencode >/dev/null 2>&1; then
     echo "==> Updating opencode"
     opencode upgrade
 else
-    curl -fsSL https://opencode.ai/install | bash
+    curl -fsSL https://raw.githubusercontent.com/anomalyco/opencode/v2/install | bash
 fi
 
 echo
