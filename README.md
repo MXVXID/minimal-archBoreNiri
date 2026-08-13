@@ -1,6 +1,6 @@
 # MXVX Arch Setup
 
-One-shot bootstrap for a minimal Arch Linux installation (Niri + Noctalia + SDDM).
+One-shot bootstrap for a minimal Arch Linux installation (Niri + Noctalia + greetd).
 
 ## Installs
 
@@ -11,7 +11,7 @@ One-shot bootstrap for a minimal Arch Linux installation (Niri + Noctalia + SDDM
 - Zsh + autosuggestions + syntax-highlighting
 - Niri
 - Noctalia (app theming: GTK3/GTK4, KColorScheme, Qt, Kitty)
-- greetd + Noctalia Greeter (login screen, auto-sync dari desktop)
+- greetd + Noctalia Greeter (login screen, synced with the desktop)
 - Kitty
 - Firefox
 - adw-gtk-theme + nwg-look (GTK theming)
@@ -58,7 +58,7 @@ chmod +x install.sh
 - `qt6ct` → Appearance → Color scheme: `noctalia (KColorScheme)`
 - Noctalia Settings → Templates → enable community templates → enable `pywalfox-beta4`
 - Install the [Pywalfox](https://addons.mozilla.org/en-US/firefox/addon/pywalfox/) extension in Firefox and restart it once
-- Noctalia Settings → Security → Noctalia Greeter → **Sync Now** (copy wallpaper/palette/font ke login screen) — optional: enable Auto-Sync
+- Noctalia Settings → Security → Noctalia Greeter → **Sync Now** (copies wallpaper/palette/font to the login screen) — optional: enable Auto-Sync
 
 ## Structure
 
