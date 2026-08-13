@@ -8,6 +8,9 @@ adw-gtk-theme
 nwg-look
 ttf-jetbrains-mono-nerd
 
+btop
+cava
+
 noto-fonts
 noto-fonts-emoji
 noto-fonts-cjk

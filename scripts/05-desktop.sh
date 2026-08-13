@@ -14,25 +14,6 @@ mapfile -t PACKAGES < <(
 sudo pacman -S --needed "${PACKAGES[@]}"
 
 echo
-echo "==> Installing kitty config"
-
-if [[ -e "$HOME/.config/kitty/kitty.conf" && ! -L "$HOME/.config/kitty/kitty.conf" ]]; then
-    cp "$HOME/.config/kitty/kitty.conf" \
-       "$HOME/.config/kitty/kitty.conf.backup.$(date +%Y%m%d%H%M%S)"
-fi
-
-mkdir -p "$HOME/.config/kitty/themes"
-
-if [[ ! -f "$HOME/.config/kitty/themes/noctalia.conf" ]]; then
-    printf '# placeholder — Noctalia Settings → Templates will generate this file\n' \
-        > "$HOME/.config/kitty/themes/noctalia.conf"
-fi
-
-ln -sfn \
-    "$ROOT_DIR/kitty/kitty.conf" \
-    "$HOME/.config/kitty/kitty.conf"
-
-echo
 echo "==> Enabling NetworkManager"
 
 sudo systemctl enable NetworkManager.service

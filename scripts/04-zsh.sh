@@ -33,34 +33,6 @@ else
         "$OMZ_DIR"
 fi
 
-echo "==> Installing fastfetch config"
-
-if [[ -e "$HOME/.config/fastfetch/config.jsonc" && ! -L "$HOME/.config/fastfetch/config.jsonc" ]]; then
-    cp "$HOME/.config/fastfetch/config.jsonc" \
-       "$HOME/.config/fastfetch/config.jsonc.backup.$(date +%Y%m%d%H%M%S)"
-fi
-
-mkdir -p "$HOME/.config/fastfetch"
-
-ln -sfn \
-    "$ROOT_DIR/fastfetch/config.jsonc" \
-    "$HOME/.config/fastfetch/config.jsonc"
-
-ln -sfn \
-    "$ROOT_DIR/fastfetch/framework_white.png" \
-    "$HOME/.config/fastfetch/framework_white.png"
-
-echo "==> Installing .zshrc"
-
-if [[ -e "$HOME/.zshrc" && ! -L "$HOME/.zshrc" ]]; then
-    cp "$HOME/.zshrc" \
-       "$HOME/.zshrc.backup.$(date +%Y%m%d%H%M%S)"
-fi
-
-ln -sfn \
-    "$ROOT_DIR/zsh/.zshrc" \
-    "$HOME/.zshrc"
-
 ZSH="$(command -v zsh)"
 
 CURRENT_SHELL="$(getent passwd "$USER" | cut -d: -f7)"
@@ -72,5 +44,6 @@ fi
 
 echo
 echo "==> Theme: agnoster (Oh My Zsh) — needs a Nerd Font (installed later)"
+echo "    .zshrc is linked by step 9 (dotfiles)"
 
 echo "==> Zsh ready"

@@ -55,12 +55,12 @@ STEP_DESCS=(
     "System update + base packages"
     "CachyOS repos + BORE kernel"
     "AUR helper (paru / yay)"
-    "Zsh + Oh My Zsh (agnoster) + fastfetch"
-    "Niri, Noctalia, greetd, fonts, AUR extras"
+    "Zsh + Oh My Zsh (agnoster)"
+    "Niri, Noctalia, greetd, fonts, btop/cava, AUR extras"
     "GPU drivers (AMD / Intel / NVIDIA / All)"
     "Noctalia theming templates"
     "Neovim + LazyVim dependencies"
-    "LazyVim starter + dotfiles from MXVXID/lx"
+    "Dotfiles + configs from MXVXID/lx, LazyVim"
     "Bootloader (GRUB tuning / systemd-boot)"
 )
 

@@ -22,6 +22,7 @@ One-shot bootstrap for a minimal Arch Linux installation (Niri + Noctalia + gree
 - NetworkManager
 - Kanata (AUR)
 - qt6ct-kde (AUR, Qt theming)
+- btop + cava (Noctalia templates)
 - Neovim + LazyVim (starter + prerequisites)
 
 ## Requirements
@@ -34,11 +35,14 @@ One-shot bootstrap for a minimal Arch Linux installation (Niri + Noctalia + gree
 
 <https://github.com/MXVXID/lx>
 
-Linked:
+Linked by step 09:
 
 - ~/.config/niri
-- ~/.config/nvim
+- ~/.config/nvim (LazyVim, overlay from lx)
 - ~/.config/kanata
+- ~/.zshrc
+- ~/.config/fastfetch (config + logo)
+- ~/.config/kitty/kitty.conf
 
 ## Fresh install
 
@@ -70,20 +74,19 @@ chmod +x install.sh
 install.sh          # main entrypoint, runs all scripts in order
 packages/           # package lists (base, zsh, desktop)
 scripts/            # numbered install steps
-zsh/                # .zshrc
-fastfetch/          # fastfetch config + logo
-kitty/              # kitty.conf
 ```
+
+This repo contains **only the installer** — all configs (`.zshrc`, fastfetch, kitty, niri, nvim, kanata) live in [MXVXID/lx](https://github.com/MXVXID/lx).
 
 | Script | Purpose |
 | --- | --- |
 | 01-system | Update + base packages |
 | 02-cachyos | CachyOS repos + BORE kernel |
 | 03-aur | AUR helper (paru / yay) |
-| 04-zsh | Zsh + Oh My Zsh + plugins + shell setup |
-| 05-desktop | Niri, Noctalia, greetd, fonts, AUR extras |
+| 04-zsh | Zsh + Oh My Zsh + shell setup |
+| 05-desktop | Niri, Noctalia, greetd, fonts, btop/cava, AUR extras |
 | 06-gpu | GPU drivers (interactive selection) |
 | 07-noctalia | Noctalia theming templates |
 | 08-lazyvim | Neovim + LazyVim prerequisites |
-| 09-dotfiles | LazyVim starter + dotfiles from MXVXID/lx |
+| 09-dotfiles | Link configs from MXVXID/lx + LazyVim |
 | 10-bootloader | GRUB tuning (skips on systemd-boot) |

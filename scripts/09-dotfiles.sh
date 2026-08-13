@@ -34,12 +34,12 @@ mkdir -p "$HOME/.config"
 
 link_config() {
     local name="$1"
+    local target="${2:-$HOME/.config/$name}"
     local source="$DOTFILES_DIR/.config/$name"
-    local target="$HOME/.config/$name"
 
     if [[ ! -e "$source" ]]; then
         echo
-        echo "==> ~/.config/$name not found in lx"
+        echo "==> $DOTFILES_DIR/.config/$name not found in lx"
         echo "    Skipping."
         return 0
     fi
@@ -57,6 +57,8 @@ link_config() {
 
     fi
 
+    mkdir -p "$(dirname "$target")"
+
     ln -sfn "$source" "$target"
 
     echo
@@ -67,6 +69,20 @@ link_config() {
 
 link_config "niri"
 link_config "kanata"
+link_config "zsh/.zshrc" "$HOME/.zshrc"
+link_config "fastfetch/config.jsonc"
+link_config "fastfetch/framework_white.png"
+link_config "kitty/kitty.conf"
+
+if [[ -d "$HOME/.config/kitty" && ! -f "$HOME/.config/kitty/themes/noctalia.conf" ]]; then
+    echo
+    echo "==> Creating kitty noctalia theme placeholder"
+
+    mkdir -p "$HOME/.config/kitty/themes"
+
+    printf '# placeholder — Noctalia Settings → Templates will generate this file\n' \
+        > "$HOME/.config/kitty/themes/noctalia.conf"
+fi
 
 NVIM_DIR="$HOME/.config/nvim"
 
