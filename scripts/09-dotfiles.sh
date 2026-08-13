@@ -69,6 +69,18 @@ link_config "niri"
 link_config "nvim"
 link_config "kanata"
 
+if command -v nvim >/dev/null 2>&1 && [[ -e "$HOME/.config/nvim/lua/config/lazy.lua" ]]; then
+    echo
+    echo "==> Bootstrapping LazyVim (first run — installs plugins, may take a while)"
+
+    if nvim --headless "+Lazy! sync" +qa 2>/dev/null; then
+        echo "==> LazyVim plugins installed"
+    else
+        echo "==> Warning: LazyVim bootstrap did not finish cleanly"
+        echo "    Run 'nvim' once manually to complete the plugin install."
+    fi
+fi
+
 echo
 echo "=============================================="
 echo "             DOTFILES READY"
