@@ -15,7 +15,8 @@ noto-fonts
 noto-fonts-emoji
 noto-fonts-cjk
 
-xorg-xwayland
+# Wayland X11 bridge (pulls xorg-xwayland as dependency)
+xwayland-satellite
 xdg-desktop-portal
 xdg-desktop-portal-gnome
 xdg-desktop-portal-gtk

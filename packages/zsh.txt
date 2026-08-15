@@ -3,3 +3,4 @@ zsh-autosuggestions
 zsh-syntax-highlighting
 fastfetch
 zsh-completions
+imagemagick
