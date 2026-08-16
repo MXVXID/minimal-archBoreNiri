@@ -6,6 +6,7 @@ kitty
 firefox
 adw-gtk-theme
 nwg-look
+yazi
 ttf-jetbrains-mono-nerd
 
 btop

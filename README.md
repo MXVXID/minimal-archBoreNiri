@@ -17,6 +17,7 @@ One-shot bootstrap for a minimal Arch Linux installation (Niri + Noctalia + gree
 - Kitty
 - Firefox
 - adw-gtk-theme + nwg-look (GTK theming)
+- yazi (terminal file manager)
 - JetBrains Mono Nerd Font + all Nerd Fonts (via ttf-nerd-fonts-meta)
 - Noto fonts (complete Unicode + CJK + emoji)
 - PipeWire + WirePlumber
