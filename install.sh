@@ -134,15 +134,15 @@ if command -v whiptail >/dev/null 2>&1; then HAS_WHIPTAIL=1; fi
 if command -v dialog   >/dev/null 2>&1; then HAS_DIALOG=1; fi
 
 # Run a whiptail/dialog --checklist.
-#   ui_checklist <title> <text> <height> <width> <listheight> <tag desc state>...
+#   ui_checklist <title> <text> <tag desc state>...
 # Fills global OUT array with selected tags.
 # Returns 0 = ok, 1 = cancel, 10 = no TUI available.
 #
 # The box is always drawn straight to /dev/tty so it stays visible even when
 # stdout/stderr are redirected, and answers are captured from a temp file.
 ui_checklist() {
-    local title="$1" text="$2" height="$3" width="$4" lh="$5"
-    shift 5
+    local title="$1" text="$2"
+    shift 2
 
     local tmp tool
 
@@ -159,51 +159,26 @@ ui_checklist() {
 
     tmp="$(mktemp)"
 
+    # Size the box to the terminal so whiptail never rejects it as too large.
+    local cols lines w h clh
+    lines="$(tput lines 2>/dev/null || echo 24)"
+    cols="$(tput cols 2>/dev/null || echo 80)"
+    w=$((cols - 4)); ((w > 100)) && w=100; ((w < 44)) && w=44
+    h=$((lines - 4)); ((h > 22)) && h=22; ((h < 10)) && h=10
+    clh=$((h - 8)); ((clh < 4)) && clh=4
+
     if [[ "$tool" == "whiptail" ]]; then
         whiptail --title "$title" --separate-output --checklist "$text" \
-            "$height" "$width" "$lh" "$@" >/dev/tty 2>"$tmp" || { rm -f "$tmp"; return 1; }
+            "$h" "$w" "$clh" "$@" >/dev/tty 2>"$tmp" || { rm -f "$tmp"; return 1; }
     else
         dialog --stdout --separate-output --title "$title" --checklist "$text" \
-            "$height" "$width" "$lh" "$@" >"$tmp" 2>/dev/tty || { rm -f "$tmp"; return 1; }
+            "$h" "$w" "$clh" "$@" >"$tmp" 2>/dev/tty || { rm -f "$tmp"; return 1; }
     fi
 
     OUT=()
     while IFS= read -r line; do
         [[ -n "$line" ]] && OUT+=("$line")
     done < "$tmp"
-    rm -f "$tmp"
-    return 0
-}
-
-# Run a whiptail/dialog --menu (single choice).
-# Fills global OUT with the tag. Returns 0/1/10 as above.
-ui_menu() {
-    local title="$1" text="$2" height="$3" width="$4" lh="$5"
-    shift 5
-
-    local tmp tool
-
-    if [[ "$HAS_WHIPTAIL" -eq 1 ]]; then
-        tool=whiptail
-    elif [[ "$HAS_DIALOG" -eq 1 ]]; then
-        tool=dialog
-    else
-        return 10
-    fi
-
-    [[ -t 0 && -t 1 ]] || return 10
-
-    tmp="$(mktemp)"
-
-    if [[ "$tool" == "whiptail" ]]; then
-        whiptail --title "$title" --menu "$text" \
-            "$height" "$width" "$lh" "$@" >/dev/tty 2>"$tmp" || { rm -f "$tmp"; return 1; }
-    else
-        dialog --stdout --title "$title" --menu "$text" \
-            "$height" "$width" "$lh" "$@" >"$tmp" 2>/dev/tty || { rm -f "$tmp"; return 1; }
-    fi
-
-    mapfile -t OUT < <(tr -s ' ' '\n' < "$tmp" | tr -d '"')
     rm -f "$tmp"
     return 0
 }
@@ -312,13 +287,12 @@ select_steps_tui() {
     local rc=0
     ui_checklist "Install steps" \
         "Use SPACE to toggle a step, arrows to navigate, ENTER to confirm." \
-        22 82 STEP_TOTAL "${checklist[@]}" || rc=$?
-    if [[ "$rc" -eq 10 ]]; then
-        warn "whiptail/dialog not found — using the manual toggle fallback."
+        "${checklist[@]}" || rc=$?
+    if [[ "$rc" -eq 10 || "$rc" -eq 1 ]]; then
+        warn "Checkbox UI not usable — using the manual toggle selector."
         select_interactive
         return 0
     fi
-    [[ "$rc" -eq 1 ]] && return 1
 
     SELECTED=()
     for tag in "${OUT[@]}"; do
@@ -656,44 +630,21 @@ EOF
 main_menu() {
     echo "  ${C_BOLD}What do you want to do?${C_RESET}"
     echo
-
-    local -a items=(
-        "install"   "Run the installer (pick steps with checkboxes)"
-        "backup"    "Create a package + config snapshot"
-        "restore"   "Restore from an existing backup"
-        "quit"      "Exit"
-    )
-
-    local rc=0
-    ui_menu "MXVX Arch Setup" "Choose a mode:" 14 72 8 "${items[@]}" || rc=$?
-    if [[ "$rc" -eq 10 ]]; then
-        echo "  1) Install"
-        echo "  2) Backup"
-        echo "  3) Restore"
-        echo "  4) Quit"
-        printf "  ${C_BOLD}?${C_RESET} Choice [1]: "
-        if ! read -r choice; then
-            choice="4"
-        fi
-        choice="${choice:-1}"
-        case "$choice" in
-            1|install)   choice="install" ;;
-            2|backup)    choice="backup" ;;
-            3|restore)   choice="restore" ;;
-            *)           choice="quit" ;;
-        esac
-    elif [[ "$rc" -eq 1 ]]; then
-        echo "  Cancelled."
-        exit 0
-    else
-        choice="${OUT[0]}"
+    echo "  1) Install"
+    echo "  2) Backup"
+    echo "  3) Restore"
+    echo "  4) Quit"
+    printf "  ${C_BOLD}?${C_RESET} Choice [1]: "
+    if ! read -r choice; then
+        choice="1"
     fi
+    choice="${choice:-1}"
 
     case "$choice" in
-        install) install_mode ;;
-        backup)  make_backup "" ;;
-        restore) restore_backup "" ;;
-        quit|*)  exit 0 ;;
+        1|install)   install_mode ;;
+        2|backup)    make_backup "" ;;
+        3|restore)   restore_backup "" ;;
+        *)           exit 0 ;;
     esac
 }
 
