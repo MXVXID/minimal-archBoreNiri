@@ -60,7 +60,8 @@ if [[ -n "$AUR_HELPER" ]]; then
         ttf-nerd-fonts-meta \
         qt6ct-kde \
         noctalia-greeter \
-        mpv-mpris
+        mpv-mpris \
+        cliamp
 
     echo
     echo "==> Verifying kanata"
@@ -68,8 +69,8 @@ if [[ -n "$AUR_HELPER" ]]; then
     kanata --version
 else
     echo
-    echo "WARNING: No AUR helper found (paru/yay), skipping kanata-bin, ttf-nerd-fonts-meta, qt6ct-kde, noctalia-greeter and mpv-mpris."
-    echo "         Run manually: paru -S kanata-bin ttf-nerd-fonts-meta qt6ct-kde noctalia-greeter mpv-mpris"
+    echo "WARNING: No AUR helper found (paru/yay), skipping kanata-bin, ttf-nerd-fonts-meta, qt6ct-kde, noctalia-greeter, mpv-mpris and cliamp."
+    echo "         Run manually: paru -S kanata-bin ttf-nerd-fonts-meta qt6ct-kde noctalia-greeter mpv-mpris cliamp"
 fi
 
 echo

@@ -24,6 +24,7 @@ One-shot bootstrap for a minimal Arch Linux installation (Niri + Noctalia + gree
 - NetworkManager
 - gvfs + gvfs-mtp (filesystem mount support)
 - mpv + mpv-mpris + yt-dlp (media playback)
+- cliamp (retro terminal music player, AUR)
 - Kanata (AUR)
 - qt6ct-kde (AUR, Qt theming)
 - btop + cava (Noctalia templates)
