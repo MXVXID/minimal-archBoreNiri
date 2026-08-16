@@ -69,6 +69,10 @@ chmod +x install.sh
 The dev toolchain (step 11) is **optional** — the wizard asks for it and the default is
 *no*. Use `--steps 11` (or `--steps 1-11`) to include it.
 
+> Confirmation prompts use `[Y/n]` (Enter = yes) for the steps that actually do work,
+> and `[y/N]` (Enter = no) for optional extras — pressing Enter just keeps the flow
+> moving instead of accidentally cancelling.
+
 ### Step selection
 
 The wizard uses a **checkbox** UI (`whiptail`/`dialog`, press `SPACE` to toggle);

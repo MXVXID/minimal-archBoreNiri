@@ -38,10 +38,20 @@ die()  { fail "$*"; exit 1; }
 line() { printf "${C_DIM}────────────────────────────────────────────────────────────────${C_RESET}\n"; }
 
 yesno() {
-    local prompt="${1:-Continue?}" answer
-    printf "${C_BOLD}?${C_RESET} %s [y/N] " "$prompt"
+    local prompt="${1:-Continue?}" default="${2:-n}" answer
+    local yn
+    if [[ "$default" == [yY] ]]; then
+        yn="[Y/n]"
+    else
+        yn="[y/N]"
+    fi
+    printf "${C_BOLD}?${C_RESET} %s %s " "$prompt" "$yn"
     read -r answer
-    [[ "$answer" =~ ^[Yy]$ ]]
+    if [[ "$default" == [yY] ]]; then
+        [[ -z "$answer" || "$answer" =~ ^[Yy]$ ]]
+    else
+        [[ "$answer" =~ ^[Yy]$ ]]
+    fi
 }
 
 # ------------------------------------------------------------
@@ -114,7 +124,8 @@ ensure_tui() {
         fi
     fi
     echo
-    warn "Falling back to the manual toggle selector."
+    warn "No checkbox UI — falling back to the manual toggle selector."
+    warn "Type a number to toggle a step; 'd' when done. (Enter on your own risk ;))"
 }
 
 HAS_WHIPTAIL=0
@@ -126,6 +137,9 @@ if command -v dialog   >/dev/null 2>&1; then HAS_DIALOG=1; fi
 #   ui_checklist <title> <text> <height> <width> <listheight> <tag desc state>...
 # Fills global OUT array with selected tags.
 # Returns 0 = ok, 1 = cancel, 10 = no TUI available.
+#
+# The box is always drawn straight to /dev/tty so it stays visible even when
+# stdout/stderr are redirected, and answers are captured from a temp file.
 ui_checklist() {
     local title="$1" text="$2" height="$3" width="$4" lh="$5"
     shift 5
@@ -144,16 +158,19 @@ ui_checklist() {
     [[ -t 0 && -t 1 ]] || return 10
 
     tmp="$(mktemp)"
-    if ! "$tool" --title "$title" --checklist "$text" \
-            "$height" "$width" "$lh" "$@" 2>"$tmp"; then
-        rm -f "$tmp"
-        return 1
+
+    if [[ "$tool" == "whiptail" ]]; then
+        whiptail --title "$title" --separate-output --checklist "$text" \
+            "$height" "$width" "$lh" "$@" >/dev/tty 2>"$tmp" || { rm -f "$tmp"; return 1; }
+    else
+        dialog --stdout --separate-output --title "$title" --checklist "$text" \
+            "$height" "$width" "$lh" "$@" >"$tmp" 2>/dev/tty || { rm -f "$tmp"; return 1; }
     fi
 
     OUT=()
     while IFS= read -r line; do
         [[ -n "$line" ]] && OUT+=("$line")
-    done < <(tr -s ' ' '\n' < "$tmp" | tr -d '"')
+    done < "$tmp"
     rm -f "$tmp"
     return 0
 }
@@ -177,10 +194,13 @@ ui_menu() {
     [[ -t 0 && -t 1 ]] || return 10
 
     tmp="$(mktemp)"
-    if ! "$tool" --title "$title" --menu "$text" \
-            "$height" "$width" "$lh" "$@" 2>"$tmp"; then
-        rm -f "$tmp"
-        return 1
+
+    if [[ "$tool" == "whiptail" ]]; then
+        whiptail --title "$title" --menu "$text" \
+            "$height" "$width" "$lh" "$@" >/dev/tty 2>"$tmp" || { rm -f "$tmp"; return 1; }
+    else
+        dialog --stdout --title "$title" --menu "$text" \
+            "$height" "$width" "$lh" "$@" >"$tmp" 2>/dev/tty || { rm -f "$tmp"; return 1; }
     fi
 
     mapfile -t OUT < <(tr -s ' ' '\n' < "$tmp" | tr -d '"')
@@ -409,7 +429,7 @@ restore_backup() {
     line
 
     local restore_configs=1 restore_packages=0
-    if yesno "Restore configs (dotfiles, xrandr/grub etc.)?"; then
+    if yesno "Restore configs (dotfiles, xrandr/grub etc.)?" y; then
         restore_configs=1
     else
         restore_configs=0
@@ -717,10 +737,10 @@ install_mode() {
     echo
 
     if [[ "$AUTO" -eq 0 ]]; then
-        if yesno "Create a safety backup before starting?"; then
+        if yesno "Create a safety backup before starting?" y; then
             make_backup ""
         fi
-        if ! yesno "Begin installation now?"; then
+        if ! yesno "Begin installation now?" y; then
             echo "  Cancelled."
             exit 0
         fi
