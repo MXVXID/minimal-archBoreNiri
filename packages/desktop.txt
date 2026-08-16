@@ -30,6 +30,12 @@ wireplumber
 playerctl
 brightnessctl
 
+gvfs
+gvfs-mtp
+
+mpv
+yt-dlp
+
 networkmanager
 network-manager-applet
 pavucontrol

@@ -21,6 +21,8 @@ One-shot bootstrap for a minimal Arch Linux installation (Niri + Noctalia + gree
 - Noto fonts (complete Unicode + CJK + emoji)
 - PipeWire + WirePlumber
 - NetworkManager
+- gvfs + gvfs-mtp (filesystem mount support)
+- mpv + mpv-mpris + yt-dlp (media playback)
 - Kanata (AUR)
 - qt6ct-kde (AUR, Qt theming)
 - btop + cava (Noctalia templates)
