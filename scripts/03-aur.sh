@@ -8,13 +8,42 @@ echo "              AUR HELPER SETUP"
 echo "=============================================="
 echo
 
+# Auto-answer diff/edit/clean/upgrade prompts so AUR installs never ask.
+# paru -> skip-review config; yay -> persisted answers in config.json.
+configure_aur() {
+    local helper="$1"
+
+    echo "==> Configuring $helper to skip review/diff prompts"
+
+    if [[ "$helper" == "paru" ]]; then
+        mkdir -p "$HOME/.config/paru"
+        tee "$HOME/.config/paru/paru.conf" >/dev/null <<'EOF'
+[options]
+BottomUp
+SortBy=popularity
+SkipReview
+ClearAfter
+RemoveMake
+EOF
+    elif [[ "$helper" == "yay" ]]; then
+        "$helper" --save \
+            --answerdiff N \
+            --answerclean N \
+            --answeredit N \
+            --answerupgrade N \
+            >/dev/null 2>&1 || true
+    fi
+}
+
 if command -v paru >/dev/null 2>&1; then
     echo "==> paru already installed, skipping selection"
     paru --version
+    configure_aur "paru"
     exit 0
 elif command -v yay >/dev/null 2>&1; then
     echo "==> yay already installed, skipping selection"
     yay --version
+    configure_aur "yay"
     exit 0
 fi
 
@@ -120,6 +149,8 @@ if ! command -v "$HELPER" >/dev/null 2>&1; then
 fi
 
 "$HELPER" --version
+
+configure_aur "$HELPER"
 
 echo
 echo "==> AUR helper setup complete"

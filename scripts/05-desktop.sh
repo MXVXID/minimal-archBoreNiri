@@ -53,6 +53,8 @@ if [[ -n "$AUR_HELPER" ]]; then
 
     if [[ "$AUR_HELPER" == "paru" ]]; then
         AUR_FLAGS+=(--skipreview)
+    else
+        AUR_FLAGS+=(--answerdiff N --answerclean N --answeredit N --answerupgrade N)
     fi
 
     "$AUR_HELPER" -S "${AUR_FLAGS[@]}" \
