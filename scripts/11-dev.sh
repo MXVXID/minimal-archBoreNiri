@@ -46,6 +46,18 @@ if command -v go >/dev/null 2>&1; then
 fi
 
 echo
+echo "==> Installing LTS Node via nvm"
+
+if [[ -s /usr/share/nvm/init-nvm.sh ]]; then
+    . /usr/share/nvm/init-nvm.sh
+    nvm install --lts
+    nvm alias default 'lts/*'
+    nvm use --lts
+else
+    echo "  nvm not found (expected at /usr/share/nvm/init-nvm.sh)"
+fi
+
+echo
 echo "==> Verifying toolchain"
 
 for tool in cmake python3 node go gopls cargo rustc opencode uv pipx bun protoc; do

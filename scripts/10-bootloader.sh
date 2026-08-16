@@ -24,7 +24,7 @@ if [[ -f /etc/default/grub ]]; then
 
     set_or_append "GRUB_DEFAULT" "saved"
     set_or_append "GRUB_SAVEDEFAULT" "true"
-    set_or_append "GRUB_DISABLE_OS_PROBER" "true"
+    set_or_append "GRUB_DISABLE_OS_PROBER" "false"
 
     sudo grub-mkconfig \
         -o /boot/grub/grub.cfg
