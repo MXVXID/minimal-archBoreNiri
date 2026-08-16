@@ -57,14 +57,41 @@ chmod +x install.sh
 ## Run
 
 ```bash
-./install.sh            # interactive wizard (choose steps, or run all)
-./install.sh --auto     # run all steps without prompts
-./install.sh --steps 1-3,5   # run only specific steps
-./install.sh --steps 11      # install only the dev toolchain
+./install.sh                      # menu: interactive wizard (checkboxes), backup, restore
+./install.sh --install           # go straight to the install wizard
+./install.sh --backup            # snapshot packages + configs to ~/archbackups
+./install.sh --restore           # restore from the latest backup (or pass a dir)
+./install.sh --auto              # run all core steps without prompts
+./install.sh --steps 1-3,5       # run only specific steps
+./install.sh --steps 11          # install only the dev toolchain
 ```
 
 The dev toolchain (step 11) is **optional** — the wizard asks for it and the default is
 *no*. Use `--steps 11` (or `--steps 1-11`) to include it.
+
+### Step selection
+
+The wizard uses a **checkbox** UI (`whiptail`/`dialog`, press `SPACE` to toggle);
+`newt` (whiptail) is part of step 1's base packages, and if you run the wizard
+before that it offers to install it for you. If neither is available it falls
+back to a manual toggle prompt.
+Use `BACKUP_ROOT=/some/dir` to change where backups are stored.
+
+### Backup & restore
+
+`--backup` snapshots everything the installer touches before making changes:
+
+```
+~/archbackups/<timestamp>/
+├── MANIFEST            # timestamp, host, package counts
+├── packages/           # pacman -Qqe + pacman -Qqm (AUR) lists
+├── etc/default-grub    # bootloader settings
+└── home/               # .config/niri, kanata, kitty, fastfetch, nvim, .zshrc
+```
+
+`--restore` copies the configs back (the current state is moved to a
+`.pre-restore-*` folder first) and can optionally reinstall the saved package
+and AUR lists. A backup is also offered before starting an interactive install.
 
 ## After first login
 
@@ -77,9 +104,10 @@ The dev toolchain (step 11) is **optional** — the wizard asks for it and the d
 ## Structure
 
 ```
-install.sh          # main entrypoint, runs all scripts in order
+install.sh          # main entrypoint (menu / install / backup / restore)
 packages/           # package lists (base, zsh, desktop)
 scripts/            # numbered install steps
+wallpapers/         # bundled wallpapers (deployed to ~/Pictures/Wallpapers by step 09)
 ```
 
 This repo contains **only the installer** — all configs (`.zshrc`, fastfetch, kitty, niri, nvim, kanata) live in [MXVXID/lx](https://github.com/MXVXID/lx).
@@ -94,6 +122,6 @@ This repo contains **only the installer** — all configs (`.zshrc`, fastfetch, 
 | 06-gpu | GPU drivers (interactive selection) |
 | 07-noctalia | Noctalia theming templates |
 | 08-lazyvim | Neovim + LazyVim prerequisites |
-| 09-dotfiles | Link configs from MXVXID/lx + LazyVim |
+| 09-dotfiles | Link configs from MXVXID/lx + LazyVim + deploy wallpapers |
 | 10-bootloader | GRUB tuning (skips on systemd-boot) |
 | 11-dev | Dev toolchain (optional — cmake, Python, Node, Go, Rust, nvm) |

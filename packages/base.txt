@@ -12,3 +12,5 @@ dosfstools
 
 amd-ucode
 intel-ucode
+
+newt

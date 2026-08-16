@@ -2,6 +2,8 @@
 
 set -euo pipefail
 
+ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
+
 DOTFILES_REPO="https://github.com/MXVXID/lx.git"
 DOTFILES_DIR="$HOME/.local/src/lx"
 
@@ -73,6 +75,21 @@ link_config "zsh/.zshrc" "$HOME/.zshrc"
 link_config "fastfetch/config.jsonc"
 link_config "fastfetch/framework_white.png"
 link_config "kitty/kitty.conf"
+
+echo
+echo "==> Deploying wallpapers"
+
+mkdir -p "$HOME/Pictures/Wallpapers"
+
+while IFS= read -r -d '' wf; do
+    w_name="$(basename "$wf")"
+    if [[ -e "$HOME/Pictures/Wallpapers/$w_name" ]]; then
+        echo "    keeping existing ~/Pictures/Wallpapers/$w_name"
+    else
+        cp "$wf" "$HOME/Pictures/Wallpapers/$w_name"
+        echo "    copied $w_name"
+    fi
+done < <(find "$ROOT_DIR/wallpapers" -maxdepth 1 -type f \( -iname '*.jpg' -o -iname '*.png' \) -print0 2>/dev/null)
 
 if [[ -d "$HOME/.config/kitty" && ! -f "$HOME/.config/kitty/themes/noctalia.conf" ]]; then
     echo
